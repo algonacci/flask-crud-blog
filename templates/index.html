@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include "header.html" %}
+  <body>
+    {% include "navbar.html" %}
+
+    <div class="container mt-2">
+      <h1>Posts</h1>
+      {% for post in data %}
+      <div class="card p-3 mt-3">
+        <h3>{{ post[1] }}</h3>
+        <small>Created on {{ post[-1] }} by {{ post[3] }}</small>
+        <p>{{ post[2] }}</p>
+        <a href="/" class="btn btn-primary">Read More</a>
+      </div>
+      {% endfor %}
+    </div>
+  </body>
+</html>
