@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include "header.html" %}
+  <body>
+    {% include "navbar.html" %}
+
+    <div class="container">
+      {% for post in data %}
+      <a href="/" class="btn btn-primary mt-3 mb-3">Back</a>
+      <h3>{{ post[1] }}</h3>
+      <small>Created on {{ post[-1] }}</small>
+      <p>{{ post[2] }}</p>
+      <hr />
+      <form action="" class="text-end" method="POST">
+        <input type="hidden" name="delete_id" value="{{ post[0] }}" />
+        <input
+          type="submit"
+          name="delete"
+          value="Delete"
+          class="btn btn-danger"
+        />
+      </form>
+      <a href="/" class="btn btn-success"> Edit Post </a>
+      {% endfor %}
+    </div>
+  </body>
+</html>
