@@ -35,6 +35,35 @@ def add_post():
         db.commit()
         return redirect("/")
 
+@app.get("/edit_post/<int:id>")
+def edit_post(id):
+    cursor.execute("SELECT * FROM posts WHERE id = ('{}')".format(id))
+    data = cursor.fetchall()
+    return render_template("edit_post.html", data=data)
+
+
+@app.post("/update_post/<int:id>")
+def update_post(id):
+    title = request.form["title"]
+    author = request.form["author"]
+    body = request.form["body"]
+    cursor.execute("""
+        UPDATE posts SET
+        title = '{}',
+        author = '{}',
+        body = '{}'
+        WHERE id = {}
+        """.format(title, author, body, id))
+    db.commit()
+    return redirect("/")
+
+
+@app.post("/delete_post/<int:id>")
+def delete_post(id):
+    cursor.execute("DELETE from posts WHERE id = ('{}')".format(id))
+    db.commit()
+    return redirect("/")
+
 
 if __name__ == "__main__":
     app.run()
