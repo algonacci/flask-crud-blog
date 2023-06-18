@@ -1,12 +1,14 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash
 from db import cursor, db
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key_here'
+
 
 
 @app.get("/")
 def root():
-    cursor.execute("SELECT * FROM posts ORDER BY created_at DESC")
+    cursor.execute("SELECT * FROM posts")
     data = cursor.fetchall()
     return render_template("index.html", data=data)
 
@@ -41,7 +43,6 @@ def edit_post(id):
     data = cursor.fetchall()
     return render_template("edit_post.html", data=data)
 
-
 @app.post("/update_post/<int:id>")
 def update_post(id):
     title = request.form["title"]
@@ -55,6 +56,7 @@ def update_post(id):
         WHERE id = {}
         """.format(title, author, body, id))
     db.commit()
+    flash("Post has been updated successfully!", "success")
     return redirect("/")
 
 
